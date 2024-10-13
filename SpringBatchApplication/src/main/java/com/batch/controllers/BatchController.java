@@ -32,7 +32,7 @@ public class BatchController {
     private final Job job;
 
     @PostMapping("/upload-file")
-    public ResponseEntity<?> receiveFile(@RequestParam(name = "file")MultipartFile multipartFile) {
+    public ResponseEntity<?> receiveFile(@RequestParam(name = "file") MultipartFile multipartFile) {
         String fileName =  multipartFile.getOriginalFilename();
         try {
             Path path = Paths.get("src"+ File.separator+ "main"+ File.separator + "resources"+ File.separator + "files"+ File.separator + fileName);

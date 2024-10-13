@@ -3,10 +3,12 @@ package com.batch.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @Entity
 @Table(name = "persons")
-public class Person {
+public class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -17,6 +19,6 @@ public class Person {
 
     private int age;
 
-    @Column(name = "registre_date")
-    private String registreDate;
+    @Column(name = "record_date")
+    private String recordDate;
 }

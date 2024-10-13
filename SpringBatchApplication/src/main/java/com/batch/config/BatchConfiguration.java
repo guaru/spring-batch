@@ -8,7 +8,6 @@ import com.batch.steps.ItemWriterStep;
 import lombok.AllArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
@@ -20,13 +19,13 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @AllArgsConstructor
-@EnableBatchProcessing
 public class BatchConfiguration {
 
     private final PlatformTransactionManager transactionManager;
     private final ResourceLoader resourceLoader;
     private final JobRepository jobRepository;
     private final IPersonService personService;
+
 
 
     @Bean
@@ -77,13 +76,15 @@ public class BatchConfiguration {
                 .tasklet(itemWriterStep(), transactionManager).build();
     }
 
+    @Bean
     public Job readCSvJob() {
-         return new JobBuilder("readCSVJob", jobRepository)
-                 .start(descompressFileStep())
-                 .next(readFileStep())
-                 .next(processDataStep())
-                 .next(writeDataStep())
-                 .build();
+        return new JobBuilder("readCSVJob", jobRepository)
+                .start(descompressFileStep())
+                .next(readFileStep())
+                .next(processDataStep())
+                .next(writeDataStep())
+                .build();
     }
+
 
 }

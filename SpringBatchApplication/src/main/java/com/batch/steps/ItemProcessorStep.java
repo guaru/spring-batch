@@ -9,6 +9,7 @@ import org.springframework.batch.repeat.RepeatStatus;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -21,12 +22,14 @@ public class ItemProcessorStep implements Tasklet {
                 .getJobExecution()
                 .getExecutionContext()
                 .get("personList");
-
-        List<Person> personFinalList =   persons.stream().map(person -> {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-            person.setRegistreDate(formatter.format(LocalDateTime.now()));
-            return person;
-        }).toList();
+        List<Person> personFinalList = new ArrayList<>();
+        if(persons!=null) {
+             personFinalList = persons.stream().map(person -> {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                person.setRecordDate(formatter.format(LocalDateTime.now()));
+                return person;
+            }).toList();
+        }
         log.info("------------------> Fin del paso de procesamiento <------------------");
         chunkContext.getStepContext()
                     .getStepExecution()
